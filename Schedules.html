@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Match Schedule Manager</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #f4f6f9;
+        }
+        h2 {
+            color: #333;
+            margin-top: 20px;
+        }
+        table {
+            margin-top: 20px;
+        }
+        .container {
+            margin-top: 40px;
+        }
+        .btn-danger, .btn-success {
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#">Football Hub</a>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav">
+                    <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
+                    <li class="nav-item"><a class="nav-link" href="teams.html">Teams</a></li>
+                    <li class="nav-item"><a class="nav-link" href="players.html">Players</a></li>
+                    <li class="nav-item"><a class="nav-link" href="news.html">News</a></li>
+                    <li class="nav-item"><a class="nav-link" href="contact.html">Contact</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container">
+        <h2 class="text-center">Manage Match Schedules</h2>
+
+        <div class="card p-4">
+            <form id="matchForm">
+                <div class="mb-3">
+                    <label for="match_name" class="form-label">Match Name</label>
+                    <input type="text" class="form-control" id="match_name" name="match_name" placeholder="Enter match name" required>
+                </div>
+                <div class="mb-3">
+                    <label for="match_date" class="form-label">Match Date</label>
+                    <input type="date" class="form-control" id="match_date" name="match_date" required>
+                </div>
+                <div class="mb-3">
+                    <label for="location" class="form-label">Location</label>
+                    <input type="text" class="form-control" id="location" name="location" placeholder="Enter location" required>
+                </div>
+                <button type="submit" class="btn btn-primary">Add Match</button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+document.getElementById('matchForm').addEventListener('submit', function(event) {
+    event.preventDefault(); 
+
+    
+    const matchName = document.getElementById('match_name').value.trim();
+    const matchDate = document.getElementById('match_date').value;
+    const location = document.getElementById('location').value.trim();
+    const today = new Date().toISOString().split('T')[0];
+
+    let isValid = true;
+    let errorMessage = '';
+
+    const lettersRegex = /^[A-Za-z\s]{3,}$/;
+    if (!lettersRegex.test(matchName)) {
+        isValid = false;
+        errorMessage += 'Match Name must contain only letters and spaces (min 3 characters).\n';
+    }
+
+    
+    if (!matchDate) {
+        isValid = false;
+        errorMessage += 'Please select a match date.\n';
+    } else if (matchDate < today) {
+        isValid = false;
+        errorMessage += 'Match date cannot be in the past.\n';
+    }
+
+    
+    if (!lettersRegex.test(location)) {
+        isValid = false;
+        errorMessage += 'Location must contain only letters and spaces (min 3 characters).\n';
+    }
+
+    
+    if (!isValid) {
+        alert(errorMessage);
+    } else {
+        alert('Match added successfully!');
+        this.reset(); 
+    }
+});
+</script>
+</body>
+</html>
